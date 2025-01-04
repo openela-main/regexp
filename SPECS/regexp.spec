@@ -1,7 +1,7 @@
 Name:           regexp
 Epoch:          1
 Version:        1.5
-Release:        37%{?dist}
+Release:        39%{?dist}
 Summary:        Simple regular expressions API
 License:        ASL 2.0
 URL:            http://jakarta.apache.org/%{name}/
@@ -13,8 +13,6 @@ Patch0:         jakarta-%{name}-attach-osgi-manifest.patch
 
 BuildRequires:  ant
 BuildRequires:  javapackages-local
-
-Requires:       java-headless
 
 %description
 Regexp is a 100% Pure Java Regular Expression package that was
@@ -32,7 +30,7 @@ Javadoc for %{name}.
 
 %prep
 %setup -q -n jakarta-%{name}-%{version}
-%patch0
+%patch -P 0
 cp -p %{SOURCE2} MANIFEST.MF
 # remove all binary libs
 find . -name "*.jar" -exec rm -f {} \;
@@ -69,6 +67,12 @@ mkdir lib
 %doc LICENSE
 
 %changelog
+* Thu Nov 21 2024 Marián Konček <mkoncek@redhat.com> - 1:1.5-39
+- Fix patch usage
+
+* Wed Nov 20 2024 Marián Konček <mkoncek@redhat.com>
+- Rebuild with regenerated Requires on Java
+
 * Tue Aug 10 2021 Mohan Boddu <mboddu@redhat.com> - 1:1.5-37
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
