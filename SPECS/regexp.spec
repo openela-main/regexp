@@ -1,11 +1,12 @@
 Name:           regexp
 Epoch:          1
 Version:        1.5
-Release:        39%{?dist}
+Release:        42%{?dist}
 Summary:        Simple regular expressions API
 License:        ASL 2.0
 URL:            http://jakarta.apache.org/%{name}/
 BuildArch:      noarch
+ExclusiveArch:  aarch64 ppc64le s390x x86_64 noarch
 
 Source0:        http://archive.apache.org/dist/jakarta/%{name}/jakarta-%{name}-%{version}.tar.gz
 Source2:        jakarta-%{name}-osgi-manifest.MF
@@ -50,7 +51,7 @@ EOF
 
 %build
 mkdir lib
-%ant -Djakarta-site2.dir=. jar javadocs
+%ant -Djakarta-site2.dir=. -Dant.build.javac.source=1.8 -Dant.build.javac.target=1.8 jar javadocs
 
 %mvn_artifact pom.xml build/*.jar
 
@@ -61,12 +62,22 @@ mkdir lib
 %ant -Djakarta-site2.dir=. test
 
 %files -f .mfiles
-%doc LICENSE
+%license LICENSE
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE
+%license LICENSE
 
 %changelog
+* Wed Dec 04 2024 Mikolaj Izdebski <mizdebsk@redhat.com> - 1:1.5-42
+- Update Java source/target to 1.8
+- Install license files in licensedir instead of docdir
+
+* Sat Nov 23 2024 Marián Konček <mkoncek@redhat.com> - 1:1.5-41
+- Add noarch to ExclusiveArch
+
+* Fri Nov 22 2024 Marián Konček <mkoncek@redhat.com> - 1:1.5-40
+- Disable building on i686
+
 * Thu Nov 21 2024 Marián Konček <mkoncek@redhat.com> - 1:1.5-39
 - Fix patch usage
 
